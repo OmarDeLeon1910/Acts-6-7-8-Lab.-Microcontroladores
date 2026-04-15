@@ -50,3 +50,9 @@ El proyecto utiliza la pila de protocolos Bluetooth del ESP32 para anunciarse co
 2.  Hay que conectar los componentes según el **Diagrama Esquemático**.
 3.  Cargar el código de la carpeta `/codigo` a tu ESP32.
 4.  Debemos emparejar el dispositivo vía Bluetooth con el nombre "ESP32 Mouse BT".
+
+
+# Resumen Técnico
+* **Pines Clave:** GPIO 13, 15, 2 (Configurados con resistencias Pull-down).
+* **Interfaz:** Bluetooth HID.
+* **Componente Principal:** Joystick para navegación de cursor.
