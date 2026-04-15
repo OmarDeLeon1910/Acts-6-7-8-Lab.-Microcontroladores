@@ -46,7 +46,7 @@ El proyecto utiliza la pila de protocolos Bluetooth del ESP32 para anunciarse co
 2.  **Software:** Arduino IDE con el paquete de placas ESP32 instalado.
 
 # Pasos para ponerlo en marcha
-1.  Debemos de clonar este repositorio creado por nosotros: `git clone https://github.com/tu-usuario/tu-repositorio.git`
+1.  Debemos de clonar este repositorio creado por nosotros: `git clone https://github.com/OmarDeLeon1910/Acts-6-7-8-Lab.Microcontroladores.git`
 2.  Hay que conectar los componentes según el **Diagrama Esquemático**.
 3.  Cargar el código de la carpeta `/codigo` a tu ESP32.
 4.  Debemos emparejar el dispositivo vía Bluetooth con el nombre "ESP32 Mouse BT".
