@@ -1,0 +1,115 @@
+## 
+#include <BleConnectionStatus.h>
+#include <BleMouse.h>
+
+#include <BleMouse.h>
+
+BleMouse bleMouse("ESP32 Mouse", "ESP32", 100);
+
+// Joystick
+#define VRX 34
+#define VRY 35
+
+// Botones
+#define BTN_LEFT 32
+#define BTN_RIGHT 33
+#define BTN_BACK 25
+#define BTN_FORWARD 26
+
+// Variables
+int centerX = 0;
+int centerY = 0;
+int deadzone = 1500;
+
+// Control de botones
+bool backPressed = false;
+bool forwardPressed = false;
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(BTN_LEFT, INPUT_PULLUP);
+  pinMode(BTN_RIGHT, INPUT_PULLUP);
+  pinMode(BTN_BACK, INPUT_PULLUP);
+  pinMode(BTN_FORWARD, INPUT_PULLUP);
+
+  Serial.println("Calibrando joystick... NO tocar");
+  delay(2000);
+
+  // Calibración
+  centerX = analogRead(VRX);
+  centerY = analogRead(VRY);
+
+  Serial.print("Centro X: "); Serial.println(centerX);
+  Serial.print("Centro Y: "); Serial.println(centerY);
+
+  bleMouse.begin();
+}
+
+void loop() {
+
+  if (bleMouse.isConnected()) {
+
+    int x = analogRead(VRX);
+    int y = analogRead(VRY);
+
+    // Deadzone
+    if (abs(x - centerX) < deadzone) x = centerX;
+    if (abs(y - centerY) < deadzone) y = centerY;
+
+    // Movimiento (X invertido)
+    int moveX = (centerX - x) / 200;
+    int moveY = (y - centerY) / 200;
+
+    // Limitar velocidad
+    moveX = constrain(moveX, -10, 10);
+    moveY = constrain(moveY, -10, 10);
+
+    // Eliminar micro movimientos
+    if (moveX > -2 && moveX < 2) moveX = 0;
+    if (moveY > -2 && moveY < 2) moveY = 0;
+
+    // Movimiento del mouse
+    bleMouse.move(moveX, -moveY);
+
+    // Click izquierdo
+    if (!digitalRead(BTN_LEFT)) {
+      bleMouse.press(MOUSE_LEFT);
+    } else {
+      bleMouse.release(MOUSE_LEFT);
+    }
+
+    // Click derecho
+    if (!digitalRead(BTN_RIGHT)) {
+      bleMouse.press(MOUSE_RIGHT);
+    } else {
+      bleMouse.release(MOUSE_RIGHT);
+    }
+
+    // Botón atrás
+    if (!digitalRead(BTN_BACK)) {
+      if (!backPressed) {
+        bleMouse.press(MOUSE_BACK);
+        delay(50);
+        bleMouse.release(MOUSE_BACK);
+        backPressed = true;
+      }
+    } else {
+      backPressed = false;
+    }
+
+    // Botón adelante
+    if (!digitalRead(BTN_FORWARD)) {
+      if (!forwardPressed) {
+        bleMouse.press(MOUSE_FORWARD);
+        delay(50);
+        bleMouse.release(MOUSE_FORWARD);
+        forwardPressed = true;
+      }
+    } else {
+      forwardPressed = false;
+    }
+  }
+
+  delay(10);
+}
