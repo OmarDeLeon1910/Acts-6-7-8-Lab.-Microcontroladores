@@ -1,9 +1,9 @@
 
 # Información del Proyecto
 # Autores: 
--[2061110] - Erick Alejandro Francisco Baltazar
--[2057902] - Omar Santiago De León Salinas
--[2056820] - Walter Giovani Benavente Tapia
+# -[2061110] - Erick Alejandro Francisco Baltazar
+# -[2057902] - Omar Santiago De León Salinas
+# -[2056820] - Walter Giovani Benavente Tapia
 # Nombre del Proyecto: Emulador de Mouse y Teclado Bluetooth (HID) con ESP32 (Equipo 10 Laboratorio Microcontroladores)
 
 Este proyecto consiste en la creación de un dispositivo periférico inalámbrico utilizando un **ESP32**. El sistema emula un protocolo HID (Human Interface Device), permitiendo controlar una computadora o celular (pasar diapositivas, controlar música o mover el cursor) mediante hardware externo.
