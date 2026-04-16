@@ -6,13 +6,13 @@
 # -[2056820] - Walter Giovani Benavente Tapia
 # Nombre del Proyecto: Emulador de Mouse y Teclado Bluetooth (HID) con ESP32 (Equipo 10 Laboratorio Microcontroladores)
 
-Este proyecto consiste en el diseño, desarrollo e implementación de un dispositivo periférico inalámbrico basado en el microcontrolador # ESP32 # , capaz de actuar como un dispositivo de interfaz humana (HID por sus siglas en inglés). 
+Este proyecto consiste en el diseño, desarrollo e implementación de un dispositivo periférico inalámbrico basado en el microcontrolador #ESP32# , capaz de actuar como un dispositivo de interfaz humana (HID por sus siglas en inglés). 
 El objetivo principal es emular las funciones de un ratón y un teclado convencional utilizando componentes electrónicos externos, permitiendo que el usuario controle computadoras, tabletas o teléfonos inteligentes mediante el protocolo Bluetooth Low Energy (BLE). Al configurarse como un dispositivo HID, el sistema es reconocido automáticamente por cualquier sistema operativo moderno sin la necesidad de instalar controladores adicionales, lo que garantiza una integración fluida y multiplataforma.
 La arquitectura del sistema combina el uso de entradas analógicas y digitales para recrear una experiencia de navegación completa. Un joystick analógico se encarga de traducir los movimientos físicos en coordenadas cartesianas para desplazar el cursor en pantalla, mientras que una serie de pulsadores táctiles se programan para ejecutar acciones específicas como clics, desplazamientos de diapositivas o controles multimedia. Internamente, el firmware procesa los cambios de voltaje en los pines GPIO y los empaqueta en tramas de datos compatibles con los estándares de comunicación HID, ofreciendo una solución técnica versátil que demuestra las capacidades del ESP32 en el ámbito de la conectividad inalámbrica y el control de hardware.
 
 ---
 
-Representación Gráfica
+# Representación Gráfica
 
 # Act. 6: Diagrama Pictórico
 Este diagrama muestra la conexión física real de los componentes.
