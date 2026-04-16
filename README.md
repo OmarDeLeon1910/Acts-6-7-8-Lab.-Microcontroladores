@@ -33,24 +33,49 @@ Representación técnica y simbólica del circuito electrónico.
 
 <img width="552" height="306" alt="Diagrama Esquematico" src="https://github.com/user-attachments/assets/1ab6e1da-a60a-4d7f-bc35-cce8c62191df" />
 
-*Descripción: Circuito detallado indicando resistencias pull-down de $10k\Omega$ y conexiones a tierra, el cual constituye la documentación técnica formal utilizando simbología electrónica universal. En esta actividad se detalla la ingeniería eléctrica del dispositivo, especificando la función crítica de las resistencias de $10k\Omega$ en configuración Pull-down que aseguran la estabilidad de los pines GPIO frente al ruido eléctrico. Este diagrama es la referencia definitiva para el análisis de nodos, validando que todas las señales analógicas del joystick y digitales de los botones cuenten con las referencias de voltaje y tierra necesarias para un funcionamiento preciso y seguro del emulador.*
+*Descripción: Este es el circuito detallado indicando resistencias pull-down de $10k\Omega$ y conexiones a tierra, el cual constituye la documentación técnica formal utilizando simbología electrónica universal. En esta actividad se detalla la ingeniería eléctrica del dispositivo, especificando la función crítica de las resistencias de $10k\Omega$ en configuración Pull-down que aseguran la estabilidad de los pines GPIO frente al ruido eléctrico. Este diagrama es la referencia definitiva para el análisis de nodos, validando que todas las señales analógicas del joystick y digitales de los botones cuenten con las referencias de voltaje y tierra necesarias para un funcionamiento preciso y seguro del emulador.*
 
 ---
 
-# ¿Cómo funciona internamente?
+## ¿Qué hace el proyecto?
 
-El proyecto utiliza la pila de protocolos Bluetooth del ESP32 para anunciarse como un dispositivo de entrada estándar. 
+**Contexto:**
+Este proyecto surge en el entorno del laboratorio de microcontroladores como una aplicación práctica para explorar las capacidades de conectividad inalámbrica y la emulación de periféricos de hardware modernos.
 
-**Arquitectura General:**
-* **Capa de Hardware:** Pulsadores de colores para funciones digitales y un Joystick para el movimiento de los ejes $X$ e $Y$.
-* **Capa de Firmware:** Programado en C++/Arduino, utiliza librerías de emulación HID que traducen los voltajes de los pines en paquetes de datos Bluetooth.
-* **Alimentación:** Diseñado para ser portátil mediante una batería LiPo de $3.7V$.
+**Propósito:**
+El propósito principal es diseñar y construir un dispositivo periférico inalámbrico autónomo que utilice el microcontr
+olador ESP32 para emular un ratón y un teclado estándar (Human Interface Device, HID) a través de Bluetooth.
 
-**Tecnologías usadas:**
-* **Microcontrolador:** ESP32 (WROOM-32).
-* **Entradas:** Joystick analógico y botones táctiles.
-* **Protocolo:** Bluetooth Low Energy (BLE) / HID.
+**¿Qué problemas resuelve?**
+El dispositivo ofrece una solución versátil y portátil para controlar sistemas computacionales sin cables y sin depender de drivers propietarios, abordando principalmente:
+* **Control Remoto:** Permite al usuario interactuar con una PC, laptop o smartphone (como la HP Pavilion x360 mostrada) a distancia, ideal para presentaciones o navegación multimedia.
+* **Integración Multiplataforma:** Soluciona la necesidad de instalar software especial. Al emular el estándar HID universal, es reconocido instantáneamente por Windows, macOS, Linux, Android y iOS.
+* **Interfaz Personalizada:** Proporciona un control del cursor mucho más intuitivo que las teclas de flecha y asigna funciones comunes (como "siguiente diapositiva" o clics) a botones físicos claros de colores.
 
+**Alcance:**
+El proyecto abarca el diseño físico del hardware sobre protoboard, el desarrollo del firmware en C++ (Arduino IDE) para procesar las señales analógicas y digitales, y la implementación de la pila de Bluetooth Low Energy (BLE) para la comunicación. El resultado es un prototipo funcional que puede realizar movimientos precisos del cursor, clics (izquierdo/derecho) y emular pulsaciones de teclas específicas para controlar diapositivas o reproducir multimedia.
+
+---
+
+## ¿Cómo funciona internamente?
+
+**Descripción Técnica:**
+La imagen de arriba muestra la implementación física real del proyecto sobre una laptop. El prototipo consiste en un microcontrolador ESP32 montado en una protoboard estándar, interconectado con un módulo de joystick analógico de 5 pines y una matriz lineal de cuatro pulsadores táctiles de colores. Un cable de datos USB-C (en la parte inferior) provee la alimentación inicial de 5V al ESP32 para su funcionamiento y programación.
+
+**Arquitectura General y Flujo de Datos:**
+
+La arquitectura interna del proyecto se basa en un flujo de control "Adquisición-Procesamiento-Emisión":
+
+1.  **Adquisición (Capa de Hardware):**
+    * **Joystick:** Este componente actúa como un dispositivo de entrada analógico de dos ejes. Sus potenciómetros internos generan voltajes variables (entre 0V y 3.3V) según la posición de la palanca. Estas variaciones son leídas por los pines GPIO analógicos (ADC) del ESP32.
+    * **Pulsadores (Botones de Colores):** Estos son entradas digitales simples. Cuando el usuario presiona un botón de color (rojo, amarillo, negro), se cierra el circuito y un voltaje sólido (3.3V) viaja a los pines GPIO digitales configurados como entrada.
+
+2.  **Procesamiento (Capa de Firmware):**
+    * **Mapeo del Joystick:** El firmware en C++ lee constantemente los valores del ADC y aplica una función de mapeo para convertir los voltajes leídos en un rango de desplazamiento negativo/positivo que representa los píxeles que debe mover el cursor en pantalla. Se implementa una "zona muerta" para evitar movimientos falsos cuando el joystick está en reposo.
+    * **Lógica de Botones y Debounce:** El código supervisa los pines digitales y, al detectar un estado alto, asigna y emite el comando HID correspondiente (ej: MOUSE\_LEFT para el clic izquierdo o KEY\_RIGHT\_ARROW para pasar una diapositiva). Se incluye lógica de anti-rebote (debouncing) para asegurar que una sola pulsación física no se interprete como múltiples acciones.
+
+3.  **Emisión (Capa de Comunicación):**
+    * **Pila de Protocolos BLE HID:** El ESP32 se anuncia ante la PC (en este caso, la laptop HP Pavilion x360 visible) como un "ESP32 Mouse BT". Utiliza la pila de protocolos de Bluetooth Low Energy para emular la estructura de datos estándar de un "Descriptor de Reporte HID", que es el lenguaje universal que los sistemas operativos entienden para interactuar con ratones y teclados. Los datos procesados se envían de forma inalámbrica en tramas compatibles con BLE HID.
 ---
 
 # Instalación y Uso
