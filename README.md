@@ -19,7 +19,7 @@ Visualización de alto nivel del funcionamiento del sistema.
 # Act. 8: Diagrama Esquemático
 Representación técnica y simbólica del circuito electrónico.
 ![Diagrama Esquemático](./imagenes/esquemático.jpg)
-*Descripción: Circuito detallado indicando resistencias pull-down de $10k\Omega$ y conexiones a tierra, el cual constituye la documentación técnica formal del circuito utilizando simbología electrónica universal. En esta actividad se detalla la ingeniería eléctrica del dispositivo, especificando la función crítica de las resistencias de $10k\Omega$ en configuración Pull-down que aseguran la estabilidad de los pines GPIO frente al ruido eléctrico. Este diagrama es la referencia definitiva para el análisis de nodos, validando que todas las señales analógicas del joystick y digitales de los botones cuenten con las referencias de voltaje y tierra necesarias para un funcionamiento preciso y seguro del emulador.*
+*Descripción: Circuito detallado indicando resistencias pull-down de $10k\Omega$ y conexiones a tierra, el cual constituye la documentación técnica formal utilizando simbología electrónica universal. En esta actividad se detalla la ingeniería eléctrica del dispositivo, especificando la función crítica de las resistencias de $10k\Omega$ en configuración Pull-down que aseguran la estabilidad de los pines GPIO frente al ruido eléctrico. Este diagrama es la referencia definitiva para el análisis de nodos, validando que todas las señales analógicas del joystick y digitales de los botones cuenten con las referencias de voltaje y tierra necesarias para un funcionamiento preciso y seguro del emulador.*
 
 ---
 
